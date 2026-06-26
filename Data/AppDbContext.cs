@@ -1,0 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using WalletView.Models;
+
+namespace WalletView.Data;
+
+public class AppDbContext : DbContext
+{
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+    {
+    }
+
+    public DbSet<Category> Categories { get; set; }
+}
