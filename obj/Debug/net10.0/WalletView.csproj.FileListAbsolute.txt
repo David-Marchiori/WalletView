@@ -123,3 +123,13 @@ C:\Users\David\Desktop\WalletView\bin\Debug\net10.0\tr\Microsoft.CodeAnalysis.Wo
 C:\Users\David\Desktop\WalletView\bin\Debug\net10.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 C:\Users\David\Desktop\WalletView\bin\Debug\net10.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 C:\Users\David\Desktop\WalletView\obj\Debug\net10.0\WalletView.sourcelink.json
+C:\Users\David\Desktop\WalletView\bin\Debug\net10.0\frontend\package-lock.json
+C:\Users\David\Desktop\WalletView\bin\Debug\net10.0\frontend\package.json
+C:\Users\David\Desktop\WalletView\bin\Debug\net10.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\David\Desktop\WalletView\bin\Debug\net10.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\David\Desktop\WalletView\bin\Debug\net10.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\David\Desktop\WalletView\bin\Debug\net10.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\David\Desktop\WalletView\bin\Debug\net10.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\David\Desktop\WalletView\bin\Debug\net10.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\David\Desktop\WalletView\bin\Debug\net10.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\David\Desktop\WalletView\bin\Debug\net10.0\System.IdentityModel.Tokens.Jwt.dll
