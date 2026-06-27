@@ -81,4 +81,10 @@ public class ExpenseController : ControllerBase
         await _context.SaveChangesAsync();
         return NoContent();
     }
+
+        private int GetUserId()
+    {
+        var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+        return int.Parse(userIdClaim!.Value);
+    }
 }
