@@ -1,0 +1,12 @@
+# Ignorar node_modules
+/frontend/node_modules/
+
+# Ignorar build do React
+/frontend/build/
+
+# Ignorar arquivos temporários
+/frontend/.env.local
+/frontend/.vscode/
+
+# Ignorar possíveis logs ou arquivos de cache
+/frontend/.caches
