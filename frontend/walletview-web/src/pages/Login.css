@@ -1,0 +1,119 @@
+.login-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0a0a0a 0%, #0a1a0f 50%, #0a0a0a 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', sans-serif;
+}
+
+.login-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(52, 211, 153, 0.2);
+  border-radius: 20px;
+  padding: 48px 40px;
+  width: 100%;
+  max-width: 420px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 0 60px rgba(52, 211, 153, 0.08);
+}
+
+.login-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 32px;
+}
+
+.logo-icon {
+  font-size: 24px;
+}
+
+.logo-text {
+  font-size: 20px;
+  font-weight: 700;
+  color: #34d399;
+}
+
+.login-title {
+  color: #f1f5f9;
+  font-size: 26px;
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+
+.login-subtitle {
+  color: #4b5563;
+  font-size: 14px;
+  margin: 0 0 32px;
+}
+
+.login-error {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  color: #f87171;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.login-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.login-field label {
+  color: #6b7280;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.login-field input {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(52, 211, 153, 0.2);
+  border-radius: 10px;
+  padding: 14px 16px;
+  color: #f1f5f9;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.login-field input::placeholder {
+  color: #374151;
+}
+
+.login-field input:focus {
+  border-color: #34d399;
+  box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.08);
+}
+
+.login-btn {
+  width: 100%;
+  padding: 15px;
+  margin-top: 8px;
+  background: #34d399;
+  border: none;
+  border-radius: 10px;
+  color: #0a0a0a;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.login-btn:hover {
+  background: #6ee7b7;
+  transform: translateY(-1px);
+}
+
+.login-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}

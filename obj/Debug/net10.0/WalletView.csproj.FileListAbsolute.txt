@@ -137,3 +137,5 @@ C:\Users\David\Desktop\WalletView\bin\Debug\net10.0\frontend\walletview-web\pack
 C:\Users\David\Desktop\WalletView\bin\Debug\net10.0\frontend\walletview-web\tsconfig.app.json
 C:\Users\David\Desktop\WalletView\bin\Debug\net10.0\frontend\walletview-web\tsconfig.json
 C:\Users\David\Desktop\WalletView\bin\Debug\net10.0\frontend\walletview-web\tsconfig.node.json
+C:\Users\David\Desktop\WalletView\bin\Debug\net10.0\frontend\package-lock.json
+C:\Users\David\Desktop\WalletView\bin\Debug\net10.0\frontend\package.json
