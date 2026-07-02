@@ -1,0 +1,194 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--wv-overlay);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: wv-modal-fade 0.2s ease-out;
+}
+
+.modal-overlay > .modal-content {
+  width: 100%;
+  max-width: 420px;
+  background: var(--wv-modal-bg);
+  border: 1px solid var(--wv-border-strong);
+  border-radius: var(--wv-radius);
+  padding: 28px;
+  box-shadow: var(--wv-shadow), var(--wv-shadow-glow);
+  animation: wv-modal-slide 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: left;
+}
+
+.modal-overlay > .modal-content > button:first-child {
+  background: var(--wv-surface);
+  border: 1px solid var(--wv-border);
+  font-size: 14px;
+  color: var(--wv-text-muted);
+  cursor: pointer;
+  float: right;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--wv-radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--wv-transition), color var(--wv-transition), border-color var(--wv-transition);
+}
+
+.modal-overlay > .modal-content > button:first-child:hover {
+  background: var(--wv-surface-hover);
+  color: var(--wv-text);
+  border-color: var(--wv-border-strong);
+}
+
+.modal-close {
+  background: var(--wv-surface);
+  border: 1px solid var(--wv-border);
+  font-size: 16px;
+  color: var(--wv-text-muted);
+  cursor: pointer;
+  float: right;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--wv-radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--wv-transition), color var(--wv-transition);
+}
+
+.modal-close:hover {
+  background: var(--wv-surface-hover);
+  color: var(--wv-text);
+  border-color: var(--wv-border-strong);
+}
+
+.modal-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 22px;
+  clear: both;
+  background: var(--wv-surface);
+  padding: 4px;
+  border-radius: var(--wv-radius-sm);
+  border: 1px solid var(--wv-border);
+}
+
+.modal-tabs button {
+  flex: 1;
+  padding: 11px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--wv-text-muted);
+  cursor: pointer;
+  transition: all var(--wv-transition);
+}
+
+.modal-tabs button:hover:not(.active) {
+  color: var(--wv-text-secondary);
+  background: var(--wv-surface-hover);
+}
+
+.modal-tabs button.active {
+  background: var(--wv-gradient);
+  color: var(--wv-on-primary);
+  box-shadow: 0 2px 12px rgba(168, 85, 247, 0.35);
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.modal-form input,
+.modal-form select {
+  padding: 13px 16px;
+  border: 1px solid var(--wv-border);
+  border-radius: var(--wv-radius-sm);
+  font-size: 15px;
+  background: var(--wv-surface);
+  color: var(--wv-text);
+  outline: none;
+  transition: border-color var(--wv-transition), box-shadow var(--wv-transition);
+}
+
+.modal-form input::placeholder {
+  color: var(--wv-text-muted);
+}
+
+.modal-form select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23a855f7' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+
+.modal-form select option {
+  background: var(--wv-bg-soft);
+  color: var(--wv-text);
+}
+
+.modal-form input:focus,
+.modal-form select:focus {
+  border-color: var(--wv-primary);
+  box-shadow: 0 0 0 3px var(--wv-primary-muted);
+}
+
+.modal-form input[type='date']::-webkit-calendar-picker-indicator {
+  filter: invert(0.6) sepia(1) saturate(3) hue-rotate(230deg);
+  cursor: pointer;
+}
+
+.modal-form button,
+.modal-submit {
+  margin-top: 6px;
+  padding: 14px;
+  border: none;
+  border-radius: var(--wv-radius-sm);
+  background: var(--wv-gradient);
+  color: var(--wv-on-primary);
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background var(--wv-transition), opacity var(--wv-transition), box-shadow var(--wv-transition);
+  box-shadow: 0 4px 20px rgba(168, 85, 247, 0.3);
+}
+
+.modal-form button:hover:not(:disabled),
+.modal-submit:hover:not(:disabled) {
+  background: var(--wv-gradient-hover);
+  box-shadow: 0 6px 24px rgba(168, 85, 247, 0.4);
+}
+
+.modal-form button:disabled,
+.modal-submit:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+@keyframes wv-modal-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes wv-modal-slide {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@media (max-width: 480px) {
+  .modal-overlay > .modal-content {
+    padding: 22px 18px;
+  }
+}

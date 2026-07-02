@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WalletView.Data;
@@ -9,8 +8,8 @@ namespace WalletView.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize]
-public class ExpenseController : ControllerBase
+
+public class ExpenseController : AuthenticatedControllerBase
 {
     private readonly AppDbContext _context;
 
@@ -42,12 +41,14 @@ public class ExpenseController : ControllerBase
 
     public async Task<IActionResult> Create(ExpenseDTO dto)
     {
+        var userId = GetUserId();
         var expense = new Expense
         {
             Amount = dto.Amount,
             Description = dto.Description,
             Date = dto.Date,
-            CategoryId = dto.CategoryId
+            CategoryId = dto.CategoryId,
+            UserId = userId
         };
 
         _context.Expenses.Add(expense);
@@ -59,8 +60,11 @@ public class ExpenseController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, ExpenseDTO dto)
     {
+        var userId = GetUserId();
         var expense = await _context.Expenses.FindAsync(id);
         if (expense == null) return NotFound();
+
+        if (expense.UserId != userId) return Forbid();
 
         expense.Amount = dto.Amount;
         expense.Description = dto.Description;
@@ -74,8 +78,11 @@ public class ExpenseController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
+        var userId = GetUserId();
         var expense = await _context.Expenses.FindAsync(id);
         if (expense == null) return NotFound();
+
+        if (expense.UserId != userId) return Forbid();
 
         _context.Expenses.Remove(expense);
         await _context.SaveChangesAsync();

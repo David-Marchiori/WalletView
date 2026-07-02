@@ -1,0 +1,49 @@
+:root {
+  /* Brand — roxo vibrante */
+  --wv-primary: #a855f7;
+  --wv-primary-hover: #c084fc;
+  --wv-primary-muted: rgba(168, 85, 247, 0.14);
+  --wv-primary-border: rgba(168, 85, 247, 0.35);
+  --wv-primary-glow: rgba(168, 85, 247, 0.45);
+  --wv-gradient: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+  --wv-gradient-hover: linear-gradient(135deg, #c084fc 0%, #818cf8 100%);
+  --wv-on-primary: #ffffff;
+
+  /* Semantic */
+  --wv-income: #4ade80;
+  --wv-expense: #fb7185;
+  --wv-warning: #fbbf24;
+  --wv-danger: #f43f5e;
+  --wv-danger-bg: rgba(244, 63, 94, 0.1);
+
+  /* Surfaces — fundo roxo profundo */
+  --wv-bg: #09080f;
+  --wv-bg-soft: #110e1a;
+  --wv-surface: rgba(255, 255, 255, 0.04);
+  --wv-surface-hover: rgba(255, 255, 255, 0.07);
+  --wv-surface-elevated: rgba(255, 255, 255, 0.06);
+  --wv-border: rgba(168, 85, 247, 0.14);
+  --wv-border-strong: rgba(168, 85, 247, 0.32);
+  --wv-modal-bg: rgba(17, 14, 26, 0.96);
+  --wv-overlay: rgba(9, 8, 15, 0.78);
+
+  /* Text */
+  --wv-text: #f5f3ff;
+  --wv-text-secondary: #a5a3b8;
+  --wv-text-muted: #6b6880;
+
+  /* Layout */
+  --wv-radius-sm: 12px;
+  --wv-radius: 18px;
+  --wv-radius-lg: 24px;
+  --wv-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+  --wv-shadow-glow: 0 0 60px rgba(168, 85, 247, 0.12);
+  --wv-blur: blur(20px);
+
+  /* Typography */
+  --wv-font: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --wv-font-mono: ui-monospace, 'Cascadia Code', Consolas, monospace;
+
+  /* Transitions */
+  --wv-transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}

@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WalletView.Data;
@@ -9,20 +8,14 @@ namespace WalletView.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize]
-public class IncomeController : ControllerBase
+
+public class IncomeController : AuthenticatedControllerBase
 {
     private readonly AppDbContext _context;
 
     public IncomeController(AppDbContext context)
     {
         _context = context;
-    }
-
-    private int GetUserId()
-    {
-        var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
-        return int.Parse(userIdClaim!.Value);
     }
 
     [HttpGet]

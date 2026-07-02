@@ -1,0 +1,178 @@
+.dashboard {
+  min-height: 100vh;
+  padding: 40px 24px 56px;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(168, 85, 247, 0.16), transparent),
+    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(99, 102, 241, 0.08), transparent),
+    var(--wv-bg);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+  align-content: start;
+}
+
+.dashboard::before {
+  content: 'WalletView';
+  grid-column: 1 / -1;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: var(--wv-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 4px;
+}
+
+.dashboard > p {
+  grid-column: 1 / -1;
+  color: var(--wv-text-secondary);
+  font-size: 15px;
+  padding: 48px 0;
+  animation: wv-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes wv-pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.dashboard .card {
+  background: var(--wv-surface);
+  border: 1px solid var(--wv-border);
+  border-radius: var(--wv-radius);
+  padding: 24px;
+  text-align: left;
+  backdrop-filter: var(--wv-blur);
+  box-shadow: var(--wv-shadow);
+  transition: border-color var(--wv-transition), transform var(--wv-transition), box-shadow var(--wv-transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.dashboard .card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top right, rgba(168, 85, 247, 0.06), transparent 60%);
+  pointer-events: none;
+}
+
+.dashboard .card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--wv-gradient);
+  opacity: 0.75;
+}
+
+/* Entradas (1º card) e Total (3º card) — verde */
+.dashboard .card:nth-of-type(1)::before,
+.dashboard .card:nth-of-type(3)::before {
+  background: var(--wv-income);
+}
+
+.dashboard .card:nth-of-type(1) p,
+.dashboard .card:nth-of-type(3) p {
+  color: var(--wv-income);
+}
+
+/* Gastos (2º card) — vermelho */
+.dashboard .card:nth-of-type(2)::before {
+  background: var(--wv-expense);
+}
+
+.dashboard .card:nth-of-type(2) p {
+  color: var(--wv-expense);
+}
+
+.dashboard .card:hover {
+  border-color: var(--wv-border-strong);
+  transform: translateY(-3px);
+  box-shadow: var(--wv-shadow), var(--wv-shadow-glow);
+}
+
+.dashboard .card h3 {
+  margin: 0 0 12px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--wv-text-muted);
+}
+
+.dashboard .card p {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  font-family: var(--wv-font-mono);
+  color: var(--wv-text);
+  letter-spacing: -0.02em;
+}
+
+
+.dashboard > button {
+  grid-column: 1 / -1;
+  margin-top: 8px;
+  padding: 16px 28px;
+  background: var(--wv-gradient);
+  color: var(--wv-on-primary);
+  border: none;
+  border-radius: var(--wv-radius-sm);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background var(--wv-transition), transform var(--wv-transition), box-shadow var(--wv-transition);
+  box-shadow: 0 4px 20px rgba(168, 85, 247, 0.35);
+}
+
+.dashboard > button:hover {
+  background: var(--wv-gradient-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(168, 85, 247, 0.45);
+}
+
+.dashboard > button.active {
+  box-shadow: 0 0 0 3px var(--wv-primary-muted), 0 8px 28px rgba(168, 85, 247, 0.35);
+}
+
+.dashboard .categories-btn {
+  grid-column: 1 / -1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 28px;
+  background: transparent;
+  color: var(--wv-primary-hover);
+  border: 1px solid var(--wv-primary-border);
+  border-radius: var(--wv-radius-sm);
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background var(--wv-transition), border-color var(--wv-transition), color var(--wv-transition), box-shadow var(--wv-transition);
+}
+
+.dashboard .categories-btn:hover {
+  background: var(--wv-primary-muted);
+  border-color: var(--wv-border-strong);
+  color: var(--wv-text);
+  box-shadow: 0 0 24px rgba(168, 85, 247, 0.15);
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+    padding: 28px 16px 40px;
+    gap: 14px;
+  }
+
+  .dashboard .card p {
+    font-size: 24px;
+  }
+}
