@@ -4,12 +4,6 @@ import NewTransactionModal from '../components/NewTransactionModal';
 import { Link } from 'react-router-dom';
 import api from '../services/api';
 
-interface DashboardSummary {
-  totalIncome: number; 
-  totalExpenses: number;
-  balance: number;
-}
-
 type Summary = {
   totalIncome: number;
   totalExpenses: number;
