@@ -1,0 +1,5 @@
+frontend/
+bin/
+obj/
+.vs/
+*.user

@@ -28,14 +28,18 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
     builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
     {
-        options.AddPolicy("AllowFrontend", policy =>
-        {
-            policy.WithOrigins("http://localhost:5173") // porta padrão do Vite/Vue
-                .AllowAnyHeader()
-                .AllowAnyMethod();
-        });
+        policy.WithOrigins(
+                "http://localhost:5173",
+                "https://wallet-view.vercel.app/",
+                "davidmarchiori.dev"
+            )
+            .AllowAnyHeader()
+            .AllowAnyMethod();
     });
+});
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
