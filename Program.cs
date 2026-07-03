@@ -33,7 +33,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     {
         policy.WithOrigins(
                 "http://localhost:5173",
-                "https://wallet-view.vercel.app/",
+                "https://wallet-view.vercel.app",
                 "davidmarchiori.dev"
             )
             .AllowAnyHeader()

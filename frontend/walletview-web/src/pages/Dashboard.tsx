@@ -10,60 +10,146 @@ type Summary = {
   balance: number;
 };
 
+// Item vindo da API (income ou expense)
+type TransactionItem = {
+  id: number;
+  description: string;
+  amount: number;
+  date: string;
+};
+
+// Resposta do endpoint /Summary/list
+type TransactionsResponse = {
+  incomesList: TransactionItem[];
+  expensesList: TransactionItem[];
+};
+
+// Item unificado para exibir na lista
+type Transaction = TransactionItem & {
+  type: 'income' | 'expense';
+};
+
+function formatDate(date: string) {
+  return new Date(date).toLocaleDateString('pt-BR');
+}
+
+function formatMoney(value: number) {
+  return value.toFixed(2);
+}
+
 export default function Dashboard() {
-   const [summary, setSummary] = useState<Summary>({
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [summary, setSummary] = useState<Summary>({
     totalIncome: 0,
     totalExpenses: 0,
     balance: 0,
   });
   const [loading, setLoading] = useState(true);
-  const [showModal, setShowModal] = useState(false)
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    async function fetchSummary() {
+    async function fetchData() {
       try {
-        const response = await api.get('/summary');
-        setSummary(response.data);
+        const [summaryRes, transactionsRes] = await Promise.all([
+          api.get<Summary>('/summary'),
+          api.get<TransactionsResponse>('/Summary/list'),
+        ]);
+
+        setSummary(summaryRes.data);
+
+        // Junta entradas e saídas em uma lista só, ordenada por data (mais recente primeiro)
+        const { incomesList, expensesList } = transactionsRes.data;
+        const list: Transaction[] = [
+          ...incomesList.map((item) => ({ ...item, type: 'income' as const })),
+          ...expensesList.map((item) => ({ ...item, type: 'expense' as const })),
+        ].sort(
+          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+        );
+
+        setTransactions(list);
       } catch (e) {
-        console.error('Erro ao buscar resumo:', e);
+        console.error('Erro ao buscar dados:', e);
       } finally {
         setLoading(false);
       }
     }
 
-    fetchSummary();
-  }, []); // array vazio = roda só uma vez, igual onMounted
+    fetchData();
+  }, []);
 
-  if (loading) return <p>Carregando...</p>;
-  if (!summary) return <p>Erro ao carregar dados.</p>;
+  if (loading) return <p className="dashboard-loading">Carregando...</p>;
 
   return (
     <div className="dashboard">
-      <div className="card">
-        <h3>Entradas</h3>
-        <p>R$ {summary.totalIncome.toFixed(2)}</p>
-      </div>
+      {/* Cabeçalho com ações */}
+      <header className="dashboard-header">
+        <h1 className="dashboard-title">Dashboard</h1>
+        <div className="dashboard-actions">
+          <button
+            type="button"
+            className={showModal ? 'active' : ''}
+            onClick={() => setShowModal(true)}
+          >
+            Nova Transação
+          </button>
+          <Link to="/categories" className="categories-btn">
+            Categorias
+          </Link>
+        </div>
+      </header>
 
-      <div className="card">
-        <h3>Gastos</h3>
-        <p>R$ {summary.totalExpenses.toFixed(2)}</p>
-      </div>
+      {/* Resumo financeiro */}
+      <section className="summary-cards" aria-label="Resumo financeiro">
+        <div className="card card-income">
+          <h3>Entradas</h3>
+          <p>R$ {formatMoney(summary.totalIncome)}</p>
+        </div>
 
-      <div className="card">
-        <h3>Total</h3>
-        <p>R$ {summary.balance.toFixed(2)}</p>
-      </div>
+        <div className="card card-expense">
+          <h3>Gastos</h3>
+          <p>R$ {formatMoney(summary.totalExpenses)}</p>
+        </div>
 
-      <button   className={showModal ? 'active' : ''}
-            onClick={() => setShowModal(true)}>
-              Nova Transação
-            </button>
-             {showModal && (
+        <div className="card card-balance">
+          <h3>Total</h3>
+          <p>R$ {formatMoney(summary.balance)}</p>
+        </div>
+      </section>
+
+      {/* Listagem de transações */}
+      <section className="transactions" aria-label="Transações">
+        <h2 className="transactions-title">Transações</h2>
+
+        {transactions.length === 0 ? (
+          <p className="transactions-empty">Nenhuma transação ainda.</p>
+        ) : (
+          <ul className="transactions-list">
+            {transactions.map((transaction) => (
+              <li
+                key={`${transaction.type}-${transaction.id}`}
+                className={`transaction-item transaction-${transaction.type}`}
+              >
+                <div className="transaction-info">
+                  <span className="transaction-description">
+                    {transaction.description}
+                  </span>
+                  <span className="transaction-date">
+                    {formatDate(transaction.date)}
+                  </span>
+                </div>
+                <span className="transaction-amount">
+                  {transaction.type === 'income' ? '+' : '-'} R${' '}
+                  {formatMoney(transaction.amount)}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+
+      {showModal && (
         <NewTransactionModal onClose={() => setShowModal(false)} />
       )}
-      <Link to="/categories" className="categories-btn">
-  Categorias
-</Link>
     </div>
   );
 }

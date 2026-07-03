@@ -38,4 +38,22 @@ public class SummaryController : AuthenticatedControllerBase
             balance
         });
     }
+
+    [HttpGet("list")]
+    public async Task<IActionResult> List()
+    {
+        var userId = GetUserId();
+
+        var incomesList = await _context.Incomes
+            .Where(i => i.UserId == userId)
+            .OrderByDescending(i => i.Date)
+            .ToListAsync();
+
+        var expensesList = await _context.Expenses
+            .Where(e => e.UserId == userId)
+            .OrderByDescending(e => e.Date)
+            .ToListAsync();
+
+        return Ok(new { incomesList, expensesList });
+    }
 }
