@@ -43,26 +43,28 @@ export default function CategoryModal({ onClose }: CategoryModalProps) {
         <div className="modal">
             <div className="modal-content">
                 <button type="button" className="modal-close" onClick={onClose}>✕</button>
-                <h2>Nova Categoria</h2>
-                <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+                <h2 className="modal-title">Nova Categoria</h2>
+                <form className="modal-form" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
                     <label>
-                        Nome:
+                        Nome
                         <input
                             type="text"
+                            placeholder="Ex: Alimentação"
                             value={form.name}
                             onChange={(e) => setForm({ ...form, name: e.target.value })}
                         />
                     </label>
                     <label>
-                        Descrição:
+                        Descrição
                         <input
                             type="text"
+                            placeholder="Opcional"
                             value={form.description}
                             onChange={(e) => setForm({ ...form, description: e.target.value })}
                         />
                     </label>
-                    <button type="submit" disabled={loading}>
-                        {loading ? 'Enviando...' : 'Enviar'}
+                    <button type="submit" className="modal-submit" disabled={loading}>
+                        {loading ? 'Enviando...' : 'Salvar'}
                     </button>
                 </form>
             </div>

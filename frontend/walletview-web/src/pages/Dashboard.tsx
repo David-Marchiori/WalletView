@@ -24,49 +24,29 @@ type TransactionsResponse = {
   expensesList: TransactionItem[];
 };
 
-// Item unificado para exibir na lista
-type Transaction = TransactionItem & {
-  type: 'income' | 'expense';
-};
-
-function formatDate(date: string) {
-  return new Date(date).toLocaleDateString('pt-BR');
-}
-
-function formatMoney(value: number) {
-  return value.toFixed(2);
-}
-
 export default function Dashboard() {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [summary, setSummary] = useState<Summary>({
     totalIncome: 0,
     totalExpenses: 0,
     balance: 0,
   });
+  const [incomesList, setIncomesList] = useState<TransactionItem[]>([]);
+  const [expensesList, setExpensesList] = useState<TransactionItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const [summaryRes, transactionsRes] = await Promise.all([
+        // Busca o resumo e as duas listagens ao mesmo tempo
+        const [summaryRes, listRes] = await Promise.all([
           api.get<Summary>('/summary'),
           api.get<TransactionsResponse>('/Summary/list'),
         ]);
 
         setSummary(summaryRes.data);
-
-        // Junta entradas e saídas em uma lista só, ordenada por data (mais recente primeiro)
-        const { incomesList, expensesList } = transactionsRes.data;
-        const list: Transaction[] = [
-          ...incomesList.map((item) => ({ ...item, type: 'income' as const })),
-          ...expensesList.map((item) => ({ ...item, type: 'expense' as const })),
-        ].sort(
-          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-        );
-
-        setTransactions(list);
+        setIncomesList(listRes.data.incomesList);
+        setExpensesList(listRes.data.expensesList);
       } catch (e) {
         console.error('Erro ao buscar dados:', e);
       } finally {
@@ -78,74 +58,93 @@ export default function Dashboard() {
   }, []);
 
   if (loading) return <p className="dashboard-loading">Carregando...</p>;
+  if (!summary) return <p className="dashboard-loading">Erro ao carregar dados.</p>;
 
   return (
     <div className="dashboard">
-      {/* Cabeçalho com ações */}
       <header className="dashboard-header">
-        <h1 className="dashboard-title">Dashboard</h1>
-        <div className="dashboard-actions">
-          <button
-            type="button"
-            className={showModal ? 'active' : ''}
-            onClick={() => setShowModal(true)}
-          >
-            Nova Transação
-          </button>
-          <Link to="/categories" className="categories-btn">
-            Categorias
-          </Link>
-        </div>
+        <span className="dashboard-brand">WalletView</span>
+        <h1 className="dashboard-title">Resumo financeiro</h1>
       </header>
 
-      {/* Resumo financeiro */}
-      <section className="summary-cards" aria-label="Resumo financeiro">
+      <section className="summary-cards">
         <div className="card card-income">
           <h3>Entradas</h3>
-          <p>R$ {formatMoney(summary.totalIncome)}</p>
+          <p>R$ {summary.totalIncome.toFixed(2)}</p>
         </div>
 
         <div className="card card-expense">
           <h3>Gastos</h3>
-          <p>R$ {formatMoney(summary.totalExpenses)}</p>
+          <p>R$ {summary.totalExpenses.toFixed(2)}</p>
         </div>
 
         <div className="card card-balance">
           <h3>Total</h3>
-          <p>R$ {formatMoney(summary.balance)}</p>
+          <p>R$ {summary.balance.toFixed(2)}</p>
         </div>
       </section>
 
-      {/* Listagem de transações */}
-      <section className="transactions" aria-label="Transações">
-        <h2 className="transactions-title">Transações</h2>
+      <div className="dashboard-actions">
+        <button
+          type="button"
+          className={showModal ? 'btn-primary active' : 'btn-primary'}
+          onClick={() => setShowModal(true)}
+        >
+          Nova Transação
+        </button>
+        <Link to="/categories" className="categories-btn">
+          Categorias
+        </Link>
+      </div>
 
-        {transactions.length === 0 ? (
-          <p className="transactions-empty">Nenhuma transação ainda.</p>
-        ) : (
-          <ul className="transactions-list">
-            {transactions.map((transaction) => (
-              <li
-                key={`${transaction.type}-${transaction.id}`}
-                className={`transaction-item transaction-${transaction.type}`}
-              >
-                <div className="transaction-info">
-                  <span className="transaction-description">
-                    {transaction.description}
+      {/* Listagens de entradas e saídas */}
+      <div className="lists-grid">
+        <section className="transactions-panel">
+          <h2 className="transactions-title">Entradas</h2>
+          {incomesList.length === 0 ? (
+            <p className="transactions-empty">Nenhuma entrada ainda.</p>
+          ) : (
+            <ul className="transactions-list">
+              {incomesList.map((item) => (
+                <li key={item.id} className="transaction-item transaction-income">
+                  <div className="transaction-info">
+                    <span className="transaction-description">{item.description}</span>
+                    <span className="transaction-date">
+                      {new Date(item.date).toLocaleDateString('pt-BR')}
+                    </span>
+                  </div>
+                  <span className="transaction-amount">
+                    + R$ {item.amount.toFixed(2)}
                   </span>
-                  <span className="transaction-date">
-                    {formatDate(transaction.date)}
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+
+        <section className="transactions-panel">
+          <h2 className="transactions-title">Gastos</h2>
+          {expensesList.length === 0 ? (
+            <p className="transactions-empty">Nenhum gasto ainda.</p>
+          ) : (
+            <ul className="transactions-list">
+              {expensesList.map((item) => (
+                <li key={item.id} className="transaction-item transaction-expense">
+                  <div className="transaction-info">
+                    <span className="transaction-description">{item.description}</span>
+                    <span className="transaction-date">
+                      {new Date(item.date).toLocaleDateString('pt-BR')}
+                    </span>
+                  </div>
+                  <span className="transaction-amount">
+                    - R$ {item.amount.toFixed(2)}
                   </span>
-                </div>
-                <span className="transaction-amount">
-                  {transaction.type === 'income' ? '+' : '-'} R${' '}
-                  {formatMoney(transaction.amount)}
-                </span>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+      </div>
 
       {showModal && (
         <NewTransactionModal onClose={() => setShowModal(false)} />

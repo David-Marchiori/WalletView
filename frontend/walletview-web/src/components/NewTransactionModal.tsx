@@ -87,16 +87,20 @@ export default function NewTransactionModal( { onClose }: NewTransactionModalPro
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-  <button onClick={onClose}>X</button>
+        <button type="button" className="modal-close" onClick={onClose}>✕</button>
+        <h2 className="modal-title">Nova Transação</h2>
+
         {/* Abas */}
         <div className="modal-tabs">
           <button
+            type="button"
             className={activeTab === 'income' ? 'active' : ''}
             onClick={() => handleTabChange('income')}
           >
             Entrada
           </button>
           <button
+            type="button"
             className={activeTab === 'expense' ? 'active' : ''}
             onClick={() => handleTabChange('expense')}
           >
@@ -122,7 +126,7 @@ export default function NewTransactionModal( { onClose }: NewTransactionModalPro
             value={form.date}
             onChange={(e) => setForm({ ...form, date: e.target.value })}
           />
-         {activeTab === 'expense' && (
+          {activeTab === 'expense' && (
             <select
               value={form.categoryId}
               onChange={(e) => setForm({ ...form, categoryId: e.target.value })}
@@ -136,11 +140,10 @@ export default function NewTransactionModal( { onClose }: NewTransactionModalPro
             </select>
           )}
 
-          <button onClick={handleSubmit} disabled={loading}>
+          <button type="button" className="modal-submit" onClick={handleSubmit} disabled={loading}>
             {loading ? 'Enviando...' : 'Salvar'}
           </button>
         </div>
-
       </div>
     </div>
   );

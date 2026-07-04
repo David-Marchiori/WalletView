@@ -1,27 +1,29 @@
-.list-categories {
+.category-page {
   min-height: 100vh;
+}
+
+.list-categories {
   max-width: 640px;
   margin: 0 auto;
-  padding: 40px 24px 100px;
-  background:
-    radial-gradient(ellipse 70% 45% at 50% -15%, rgba(168, 85, 247, 0.14), transparent),
-    radial-gradient(ellipse 40% 30% at 100% 80%, rgba(99, 102, 241, 0.07), transparent),
-    var(--wv-bg);
+  padding: 40px 24px 120px;
 }
 
 .back-btn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  margin-bottom: 20px;
+  margin-bottom: 28px;
   padding: 8px 14px;
   color: var(--wv-text-secondary);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   text-decoration: none;
   border: 1px solid transparent;
-  border-radius: var(--wv-radius-sm);
-  transition: color var(--wv-transition), background var(--wv-transition), border-color var(--wv-transition);
+  border-radius: 999px;
+  transition:
+    color var(--wv-transition),
+    background var(--wv-transition),
+    border-color var(--wv-transition);
 }
 
 .back-btn:hover {
@@ -30,34 +32,57 @@
   border-color: var(--wv-border);
 }
 
+.category-header {
+  margin-bottom: 28px;
+}
+
+.category-brand {
+  display: inline-block;
+  margin-bottom: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  background: var(--wv-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .list-categories h2 {
   margin: 0 0 8px;
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 700;
+  letter-spacing: -0.03em;
   color: var(--wv-text);
-  letter-spacing: -0.02em;
 }
 
-.list-categories > p {
+.category-subtitle {
+  color: var(--wv-text-muted);
+  font-size: 14px;
+}
+
+.category-loading {
   color: var(--wv-text-secondary);
-  font-size: 15px;
-  padding: 32px 0;
+  font-size: 14px;
+  padding: 24px 0;
+  animation: wv-pulse 1.5s ease-in-out infinite;
 }
 
-.list-categories ul {
+.categories-list {
   list-style: none;
-  margin: 28px 0 0;
+  margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.list-categories li {
+.category-item {
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 16px 20px;
+  padding: 16px 18px;
   background: var(--wv-surface);
   border: 1px solid var(--wv-border);
   border-radius: var(--wv-radius-sm);
@@ -65,24 +90,28 @@
   font-size: 15px;
   font-weight: 500;
   backdrop-filter: var(--wv-blur);
-  transition: border-color var(--wv-transition), background var(--wv-transition), transform var(--wv-transition), box-shadow var(--wv-transition);
+  transition:
+    border-color var(--wv-transition),
+    background var(--wv-transition),
+    transform var(--wv-transition),
+    box-shadow var(--wv-transition);
 }
 
-.list-categories li::before {
+.category-item::before {
   content: '';
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: var(--wv-gradient);
   flex-shrink: 0;
-  box-shadow: 0 0 10px var(--wv-primary-glow);
+  box-shadow: 0 0 12px var(--wv-primary-glow);
 }
 
-.list-categories li:hover {
+.category-item:hover {
   background: var(--wv-surface-hover);
   border-color: var(--wv-border-strong);
   transform: translateX(4px);
-  box-shadow: 0 4px 20px rgba(168, 85, 247, 0.1);
+  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.1);
 }
 
 .new-category-btn {
@@ -90,31 +119,34 @@
   bottom: 28px;
   left: 50%;
   transform: translateX(-50%);
-  padding: 16px 32px;
+  padding: 15px 28px;
   background: var(--wv-gradient);
   color: var(--wv-on-primary);
   border: none;
   border-radius: 999px;
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 8px 32px rgba(168, 85, 247, 0.4);
-  transition: background var(--wv-transition), transform var(--wv-transition), box-shadow var(--wv-transition);
+  box-shadow: 0 10px 36px rgba(139, 92, 246, 0.35);
+  transition:
+    background var(--wv-transition),
+    transform var(--wv-transition),
+    box-shadow var(--wv-transition);
   z-index: 10;
 }
 
 .new-category-btn:hover {
   background: var(--wv-gradient-hover);
   transform: translateX(-50%) translateY(-3px);
-  box-shadow: 0 14px 40px rgba(168, 85, 247, 0.5);
+  box-shadow: 0 16px 44px rgba(139, 92, 246, 0.45);
 }
 
 @media (max-width: 768px) {
   .list-categories {
-    padding: 28px 16px 96px;
+    padding: 28px 16px 110px;
   }
 
   .list-categories h2 {
-    font-size: 24px;
+    font-size: 26px;
   }
 }

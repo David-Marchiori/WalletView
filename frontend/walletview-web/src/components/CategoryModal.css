@@ -1,94 +1,143 @@
 .modal {
   position: fixed;
   inset: 0;
-  background: var(--wv-overlay);
-  backdrop-filter: blur(8px);
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
   padding: 20px;
+  background: var(--wv-overlay);
+  backdrop-filter: blur(10px);
   animation: wv-fade-in 0.2s ease-out;
 }
 
 .modal > .modal-content {
+  position: relative;
   width: 100%;
   max-width: 420px;
+  padding: 28px;
   background: var(--wv-modal-bg);
   border: 1px solid var(--wv-border-strong);
   border-radius: var(--wv-radius);
-  padding: 28px;
   box-shadow: var(--wv-shadow), var(--wv-shadow-glow);
+  backdrop-filter: var(--wv-blur);
   animation: wv-slide-up 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-  text-align: left;
 }
 
-.modal > .modal-content h2 {
-  margin: 0 0 24px;
+.modal > .modal-content .modal-title {
+  margin: 0 40px 22px 0;
   font-size: 20px;
   font-weight: 700;
+  letter-spacing: -0.02em;
   color: var(--wv-text);
 }
 
-.modal > .modal-content form {
+.modal > .modal-content .modal-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  background: var(--wv-surface);
+  border: 1px solid var(--wv-border);
+  border-radius: var(--wv-radius-sm);
+  color: var(--wv-text-muted);
+  font-size: 14px;
+  cursor: pointer;
+  transition:
+    background var(--wv-transition),
+    color var(--wv-transition),
+    border-color var(--wv-transition);
+}
+
+.modal > .modal-content .modal-close:hover {
+  background: var(--wv-surface-hover);
+  border-color: var(--wv-border-strong);
+  color: var(--wv-text);
+}
+
+.modal > .modal-content .modal-form {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 16px;
 }
 
 .modal > .modal-content label {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--wv-text-muted);
 }
 
 .modal > .modal-content input {
-  padding: 13px 16px;
-  background: var(--wv-surface);
+  padding: 13px 15px;
+  background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--wv-border);
   border-radius: var(--wv-radius-sm);
   color: var(--wv-text);
   font-size: 15px;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
   outline: none;
-  transition: border-color var(--wv-transition), box-shadow var(--wv-transition);
+  transition:
+    border-color var(--wv-transition),
+    box-shadow var(--wv-transition),
+    background var(--wv-transition);
 }
 
 .modal > .modal-content input::placeholder {
   color: var(--wv-text-muted);
 }
 
+.modal > .modal-content input:hover {
+  background: var(--wv-surface-hover);
+  border-color: var(--wv-primary-border);
+}
+
 .modal > .modal-content input:focus {
+  background: var(--wv-surface-hover);
   border-color: var(--wv-primary);
   box-shadow: 0 0 0 3px var(--wv-primary-muted);
 }
 
-.modal > .modal-content button[type='submit'] {
+.modal > .modal-content .modal-submit {
   margin-top: 4px;
   padding: 14px;
   background: var(--wv-gradient);
   color: var(--wv-on-primary);
   border: none;
   border-radius: var(--wv-radius-sm);
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: normal;
+  text-transform: none;
   cursor: pointer;
-  transition: background var(--wv-transition), opacity var(--wv-transition), box-shadow var(--wv-transition);
-  box-shadow: 0 4px 20px rgba(168, 85, 247, 0.3);
+  box-shadow: 0 8px 22px rgba(139, 92, 246, 0.28);
+  transition:
+    background var(--wv-transition),
+    opacity var(--wv-transition),
+    box-shadow var(--wv-transition),
+    transform var(--wv-transition);
 }
 
-.modal > .modal-content button[type='submit']:hover:not(:disabled) {
+.modal > .modal-content .modal-submit:hover:not(:disabled) {
   background: var(--wv-gradient-hover);
-  box-shadow: 0 6px 24px rgba(168, 85, 247, 0.4);
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px rgba(139, 92, 246, 0.36);
 }
 
-.modal > .modal-content button[type='submit']:disabled {
+.modal > .modal-content .modal-submit:disabled {
   opacity: 0.45;
   cursor: not-allowed;
+  transform: none;
   box-shadow: none;
 }
 
@@ -98,6 +147,6 @@
 }
 
 @keyframes wv-slide-up {
-  from { transform: translateY(20px); opacity: 0; }
+  from { transform: translateY(16px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 }

@@ -26,32 +26,40 @@ export default function Category() {
 }, []);
 
 return (
-    <>
-    <div className="list-categories">
-        {/* to="/dashboard" define para qual rota o usuário será levado ao clicar */}
-        <Link to="/dashboard" className="back-btn">
-            ← Voltar ao Dashboard
-        </Link>
+    <div className="category-page">
+        <div className="list-categories">
+            {/* to="/dashboard" define para qual rota o usuário será levado ao clicar */}
+            <Link to="/dashboard" className="back-btn">
+                ← Voltar ao Dashboard
+            </Link>
 
-        <h2>Categorias</h2>
-        {loading ? (
-            <p>Carregando...</p>
-        ) : (
-            <ul>
-                {listCategories.map((category: any) => (
-                    <li key={category.id}>{category.name}</li>
-                ))}
-            </ul>
+            <header className="category-header">
+                <span className="category-brand">WalletView</span>
+                <h2>Categorias</h2>
+                <p className="category-subtitle">Organize seus gastos por tipo</p>
+            </header>
+
+            {loading ? (
+                <p className="category-loading">Carregando...</p>
+            ) : (
+                <ul className="categories-list">
+                    {listCategories.map((category: any) => (
+                        <li key={category.id} className="category-item">
+                            {category.name}
+                        </li>
+                    ))}
+                </ul>
+            )}
+        </div>
+
+        <button type="button" className="new-category-btn" onClick={() => setShowModal(true)}>
+            Nova Categoria
+        </button>
+
+        {showModal && (
+            <CategoryModal onClose={() => setShowModal(false)} />
         )}
     </div>
-
-    <button type="button" className="new-category-btn" onClick={() => setShowModal(true)}>
-        Nova Categoria
-    </button>
-     {showModal && (
-            <CategoryModal onClose={() => setShowModal(false)} />
-     )}
-    </>
 );
 
 }

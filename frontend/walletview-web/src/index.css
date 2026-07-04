@@ -19,7 +19,8 @@ body {
   line-height: 1.5;
   color: var(--wv-text);
   background:
-    radial-gradient(ellipse 100% 80% at 50% -30%, rgba(168, 85, 247, 0.08), transparent),
+    radial-gradient(ellipse 90% 55% at 50% -20%, rgba(139, 92, 246, 0.14), transparent 55%),
+    radial-gradient(ellipse 50% 40% at 100% 100%, rgba(99, 102, 241, 0.08), transparent 50%),
     var(--wv-bg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -47,12 +48,12 @@ h4 {
 
 h1 {
   font-size: 2rem;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
 }
 
 h2 {
   font-size: 1.5rem;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
 
 h3 {
@@ -72,14 +73,10 @@ a:hover {
   color: var(--wv-primary-hover);
 }
 
-button {
-  font-family: inherit;
-}
-
+button,
 input,
 select,
-textarea,
-button {
+textarea {
   font-family: inherit;
 }
 
