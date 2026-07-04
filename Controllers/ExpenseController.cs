@@ -21,8 +21,10 @@ public class ExpenseController : AuthenticatedControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
+        var userId = GetUserId();
         var expenses = await _context.Expenses
             .Include(e => e.Category)
+            .Where(e => e.UserId == userId)
             .ToListAsync();
         return Ok(expenses);
     }
@@ -30,9 +32,10 @@ public class ExpenseController : AuthenticatedControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
+        var userId = GetUserId();
         var expense = await _context.Expenses
             .Include(e => e.Category)
-            .FirstOrDefaultAsync(e => e.Id == id);
+            .FirstOrDefaultAsync(e => e.Id == id && e.UserId == userId);
         if (expense == null) return NotFound();
         return Ok(expense);
     }
@@ -46,7 +49,7 @@ public class ExpenseController : AuthenticatedControllerBase
         {
             Amount = dto.Amount,
             Description = dto.Description,
-            Date = dto.Date,
+            Date = DateTime.SpecifyKind(dto.Date, DateTimeKind.Utc),
             CategoryId = dto.CategoryId,
             UserId = userId
         };
@@ -68,7 +71,7 @@ public class ExpenseController : AuthenticatedControllerBase
 
         expense.Amount = dto.Amount;
         expense.Description = dto.Description;
-        expense.Date = dto.Date;
+        expense.Date = DateTime.SpecifyKind(dto.Date, DateTimeKind.Utc); // <- corrigido
         expense.CategoryId = dto.CategoryId;
 
         await _context.SaveChangesAsync();
@@ -87,11 +90,5 @@ public class ExpenseController : AuthenticatedControllerBase
         _context.Expenses.Remove(expense);
         await _context.SaveChangesAsync();
         return NoContent();
-    }
-
-        private int GetUserId()
-    {
-        var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
-        return int.Parse(userIdClaim!.Value);
     }
 }

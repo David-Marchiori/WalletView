@@ -45,7 +45,7 @@ public class IncomeController : AuthenticatedControllerBase
         {
             Amount = dto.Amount,
             Description = dto.Description,
-            Date = dto.Date,
+            Date = DateTime.SpecifyKind(dto.Date, DateTimeKind.Utc), // <- corrigido
             UserId = GetUserId()
         };
 
@@ -65,12 +65,11 @@ public class IncomeController : AuthenticatedControllerBase
 
         income.Amount = dto.Amount;
         income.Description = dto.Description;
-        income.Date = dto.Date;
+        income.Date = DateTime.SpecifyKind(dto.Date, DateTimeKind.Utc); // <- corrigido
 
         await _context.SaveChangesAsync();
         return Ok(income);
     }
-
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
