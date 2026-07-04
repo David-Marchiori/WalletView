@@ -27,19 +27,21 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
         };
     });
-    builder.Services.AddCors(options =>
+
+builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
         policy.WithOrigins(
                 "http://localhost:5173",
                 "https://wallet-view.vercel.app",
-                "davidmarchiori.dev"
+                "https://wallet.davidmarchiori.dev"
             )
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
 });
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -50,6 +52,21 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors("AllowFrontend");
+
+app.Use(async (context, next) =>
+{
+    try
+    {
+        await next();
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex);
+        context.Response.StatusCode = 500;
+        await context.Response.WriteAsync("Erro interno do servidor");
+    }
+});
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
