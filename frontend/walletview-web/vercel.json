@@ -1,8 +1,5 @@
 {
-"routes": [
-    {
-    "src": "/(.*)",
-    "dest": "frontend/walletview-web/index.html"
-    }
-]
+    "rewrites": [
+      { "source": "/(.*)", "destination": "/index.html" }
+    ]
 }
