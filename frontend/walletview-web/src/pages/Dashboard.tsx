@@ -57,6 +57,24 @@ export default function Dashboard() {
     fetchData();
   }, []);
 
+  async function handleDeleteExpense(id: number) {
+    try {
+      await api.delete(`/Expense/${id}`);
+      setExpensesList(prev => prev.filter(e => e.id !== id));
+    } catch (e) {
+      console.error('Erro ao deletar despesa:', e);
+    }
+  }
+
+  async function handleDeleteIncome(id: number) {
+    try {
+      await api.delete(`/Income/${id}`);
+      setIncomesList(prev => prev.filter(e => e.id !== id));
+    } catch (e) {
+      console.error('Erro ao deletar entrada:', e);
+    }
+  }
+
   if (loading) return <p className="dashboard-loading">Carregando...</p>;
   if (!summary) return <p className="dashboard-loading">Erro ao carregar dados.</p>;
 
@@ -112,6 +130,11 @@ export default function Dashboard() {
                     <span className="transaction-date">
                       {new Date(item.date).toLocaleDateString('pt-BR')}
                     </span>
+                    <span className="transaction-btn-trash">
+                      <button type="button" className="btn-trash" onClick={() => handleDeleteIncome(item.id)}>
+                        <i className="fas fa-trash"></i>
+                      </button>
+                    </span>
                   </div>
                   <span className="transaction-amount">
                     + R$ {item.amount.toFixed(2)}
@@ -134,6 +157,12 @@ export default function Dashboard() {
                     <span className="transaction-description">{item.description}</span>
                     <span className="transaction-date">
                       {new Date(item.date).toLocaleDateString('pt-BR')}
+                    </span>
+                    {/* <span className="transaction-category">{item.category}</span> */}
+                    <span className="transaction-btn-trash">
+                      <button type="button" className="btn-trash" onClick={() => handleDeleteExpense(item.id)}>
+                        <i className="fas fa-trash"></i>
+                      </button>
                     </span>
                   </div>
                   <span className="transaction-amount">
