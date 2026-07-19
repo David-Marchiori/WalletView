@@ -75,6 +75,40 @@ export default function Dashboard() {
     }
   }
 
+  async function handleExportCsv() {
+    try {
+      const response = await api.get('/Data/csv', { responseType: 'blob' });
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `walletview_${new Date().toISOString().slice(0, 10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (e) {
+      console.error('Erro ao gerar CSV:', e);
+      alert('Erro ao gerar CSV');
+    }
+  }
+
+  async function handleDeleteAll() {
+    const confirmed = window.confirm(
+      'Tem certeza que deseja excluir todas as entradas e gastos? Essa ação não pode ser desfeita.'
+    );
+    if (!confirmed) return;
+
+    try {
+      await api.delete('/Data/all');
+      setIncomesList([]);
+      setExpensesList([]);
+      setSummary({ totalIncome: 0, totalExpenses: 0, balance: 0 });
+    } catch (e) {
+      console.error('Erro ao excluir tudo:', e);
+      alert('Erro ao excluir tudo');
+    }
+  }
+
   if (loading) return <p className="dashboard-loading">Carregando...</p>;
   if (!summary) return <p className="dashboard-loading">Erro ao carregar dados.</p>;
 
@@ -113,6 +147,12 @@ export default function Dashboard() {
         <Link to="/categories" className="categories-btn">
           Categorias
         </Link>
+        <button type="button" className="btn-export" onClick={handleExportCsv}>
+          Exportar CSV
+        </button>
+        <button type="button" className="btn-danger" onClick={handleDeleteAll}>
+          Excluir Tudo
+        </button>
       </div>
 
       {/* Listagens de entradas e saídas */}
